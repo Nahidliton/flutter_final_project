@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "813470368358",
+    "project_id": "nnfiub-mobile",
+    "storage_bucket": "nnfiub-mobile.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:813470368358:android:a7da5d1ea20b20da2463a7",
+        "android_client_info": {
+          "package_name": "com.example.final_project_mobile_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWI8S0yTCX4d-wUuChuHTegfbyO27p3PU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
