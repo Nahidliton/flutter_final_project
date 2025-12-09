@@ -1,15 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:firebase_core/firebase_core.dart';
+// lib/main.dart
 
-import 'providers/auth_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+
+import 'firebase_options.dart';
 import 'providers/expense_provider.dart';
-import 'screens/login_screen.dart';
 import 'screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(const MyApp());
 }
@@ -21,41 +24,38 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => ExpenseProvider()),
       ],
       child: MaterialApp(
+        title: 'ExpenseTrack',
         debugShowCheckedModeBanner: false,
-        title: 'Simple Expense App',
-        theme: ThemeData(primarySwatch: Colors.blue),
-        home: const MainWrapper(),
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xFF6366F1),
+            brightness: Brightness.light,
+          ),
+          appBarTheme: const AppBarTheme(
+            elevation: 0,
+            centerTitle: false,
+          ),
+          cardTheme: CardThemeData(
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+          floatingActionButtonTheme: FloatingActionButtonThemeData(
+            backgroundColor: const Color(0xFF6366F1),
+            foregroundColor: Colors.white,
+            elevation: 8,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+        ),
+        home: const HomeScreen(),
       ),
-    );
-  }
-}
-
-class MainWrapper extends StatelessWidget {
-  const MainWrapper({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final auth = Provider.of<AuthProvider>(context);
-
-    return StreamBuilder(
-      stream: auth.authStateChanges(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
-        }
-
-        if (snapshot.hasData) {
-          return HomeScreen();
-        }
-
-        return LoginScreen();
-      },
     );
   }
 }
