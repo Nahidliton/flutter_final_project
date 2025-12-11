@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import '../providers/expense_provider.dart';
 import '../widgets/expense_card.dart';
-import '../widgets/category_card.dart';
+import '../widgets/category_filter_chip.dart';
+import '../widgets/category_display_card.dart';
 import '../widgets/stats_card.dart';
 import 'add_edit_expense_screen.dart';
 import '../utils/constants.dart';
@@ -363,37 +364,33 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontWeight: FontWeight.bold,
                   ),
             ),
-            const SizedBox(height: 20),
-            GridView.count(
-              crossAxisCount: 4,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 10,
-              children: [
-                CategoryCard(
-                  label: 'All',
-                  icon: Icons.all_inclusive,
-                  color: Colors.grey.shade700,
-                  isSelected: provider.categoryFilter == null,
-                  onTap: () {
-                    provider.setCategoryFilter(null);
-                    Navigator.pop(context);
-                  },
-                ),
-                ...kExpenseCategories.map((category) {
-                  return CategoryCard(
-                    label: category,
-                    icon: kCategoryIcons[category]!,
-                    color: kCategoryColors[category]!,
-                    isSelected: provider.categoryFilter == category,
+            const SizedBox(height: 16),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  CategoryFilterChip(
+                    label: 'All',
+                    isSelected: provider.categoryFilter == null,
                     onTap: () {
-                      provider.setCategoryFilter(category);
+                      provider.setCategoryFilter(null);
                       Navigator.pop(context);
                     },
-                  );
-                }).toList(),
-              ],
+                  ),
+                  ...kExpenseCategories.map((category) {
+                    return CategoryFilterChip(
+                      label: category,
+                      color: kCategoryColors[category],
+                      icon: kCategoryIcons[category],
+                      isSelected: provider.categoryFilter == category,
+                      onTap: () {
+                        provider.setCategoryFilter(category);
+                        Navigator.pop(context);
+                      },
+                    );
+                  }).toList(),
+                ],
+              ),
             ),
           ],
         ),
@@ -528,10 +525,11 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisCount: 4,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          mainAxisSpacing: 12,
-          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 8,
+          childAspectRatio: 0.85,
           children: [
-            CategoryCard(
+            CategoryDisplayCard(
               label: 'All',
               icon: Icons.all_inclusive,
               color: Colors.grey.shade700,
@@ -539,7 +537,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () => provider.setCategoryFilter(null),
             ),
             ...kExpenseCategories.map((category) {
-              return CategoryCard(
+              return CategoryDisplayCard(
                 label: category,
                 icon: kCategoryIcons[category]!,
                 color: kCategoryColors[category]!,
