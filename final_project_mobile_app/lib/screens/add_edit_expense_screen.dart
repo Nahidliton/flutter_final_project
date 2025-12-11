@@ -85,18 +85,59 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
         await provider.addExpense(newExpense)
             .timeout(const Duration(seconds: 10));
 
-        // Pop with a result map and let the Home screen show the SnackBar.
-        if (mounted) Navigator.of(context).pop({'ok': true, 'message': 'Expense added successfully!'});
+        if (!mounted) return;
+        // Stop loading, show a success message here with an icon, then go home.
+        setState(() => _isLoading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.green,
+            content: Row(
+              children: const [
+                Icon(Icons.check_circle, color: Colors.white),
+                SizedBox(width: 12),
+                Expanded(child: Text('Expense added successfully!')),
+              ],
+            ),
+            duration: Duration(milliseconds: 900),
+          ),
+        );
+        // Wait a short moment so the user sees the message, then navigate back.
+        await Future.delayed(const Duration(milliseconds: 900));
+        if (mounted) Navigator.of(context).pop(true);
       } else {
         await provider.updateExpense(newExpense)
             .timeout(const Duration(seconds: 10));
 
-        if (mounted) Navigator.of(context).pop({'ok': true, 'message': 'Expense updated successfully!'});
+        if (!mounted) return;
+        setState(() => _isLoading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.green,
+            content: Row(
+              children: const [
+                Icon(Icons.check_circle, color: Colors.white),
+                SizedBox(width: 12),
+                Expanded(child: Text('Expense updated successfully!')),
+              ],
+            ),
+            duration: Duration(milliseconds: 900),
+          ),
+        );
+        await Future.delayed(const Duration(milliseconds: 900));
+        if (mounted) Navigator.of(context).pop(true);
       }
     } on Exception catch (e) {
-      // On timeout or other exception, return the error message to the caller so
-      // the Home screen can display it and we won't remain blocked here.
-      if (mounted) Navigator.of(context).pop({'ok': false, 'message': e.toString()});
+      // On timeout or other exception, show the error here so the user sees it
+      // and remains on the Add/Edit screen to retry or cancel.
+      if (mounted) {
+        setState(() => _isLoading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error saving expense: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
       return;
     }
   }
