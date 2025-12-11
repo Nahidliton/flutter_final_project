@@ -80,8 +80,11 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
     );
 
     try {
+      // Protect against indefinitely waiting writes by using a timeout.
       if (widget.expense == null) {
-        await provider.addExpense(newExpense);
+        await provider.addExpense(newExpense)
+            .timeout(const Duration(seconds: 10));
+
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -90,12 +93,14 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
               duration: Duration(seconds: 2),
             ),
           );
-          // Wait for snackbar to show before navigating
-          await Future.delayed(const Duration(seconds: 2));
-          if (mounted) Navigator.of(context).pop();
+          // Wait a short moment for the snackbar to appear, then navigate back.
+          await Future.delayed(const Duration(milliseconds: 700));
+          if (mounted) Navigator.of(context).pop(true);
         }
       } else {
-        await provider.updateExpense(newExpense);
+        await provider.updateExpense(newExpense)
+            .timeout(const Duration(seconds: 10));
+
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -104,15 +109,15 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
               duration: Duration(seconds: 2),
             ),
           );
-          // Wait for snackbar to show before navigating
-          await Future.delayed(const Duration(seconds: 2));
-          if (mounted) Navigator.of(context).pop();
+          await Future.delayed(const Duration(milliseconds: 700));
+          if (mounted) Navigator.of(context).pop(true);
         }
       }
-    } catch (e) {
+    } on Exception catch (e) {
+      // Handle timeout or firestore exceptions
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text('Error saving expense: ${e.toString()}'), backgroundColor: Colors.red),
         );
       }
     } finally {
