@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import '../providers/expense_provider.dart';
 import '../widgets/expense_card.dart';
-import '../widgets/category_filter_chip.dart';
+import '../widgets/category_card.dart';
 import '../widgets/stats_card.dart';
 import 'add_edit_expense_screen.dart';
 import '../utils/constants.dart';
@@ -520,22 +520,25 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         const SizedBox(height: 12),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
+        GridView.count(
+          crossAxisCount: 4,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          mainAxisSpacing: 12,
+          crossAxisSpacing: 10,
           children: [
-            CategoryFilterChip(
+            CategoryCard(
               label: 'All',
-              color: Colors.grey.shade700,
               icon: Icons.all_inclusive,
+              color: Colors.grey.shade700,
               isSelected: provider.categoryFilter == null,
               onTap: () => provider.setCategoryFilter(null),
             ),
             ...kExpenseCategories.map((category) {
-              return CategoryFilterChip(
+              return CategoryCard(
                 label: category,
-                color: kCategoryColors[category],
-                icon: kCategoryIcons[category],
+                icon: kCategoryIcons[category]!,
+                color: kCategoryColors[category]!,
                 isSelected: provider.categoryFilter == category,
                 onTap: () => provider.setCategoryFilter(category),
               );
