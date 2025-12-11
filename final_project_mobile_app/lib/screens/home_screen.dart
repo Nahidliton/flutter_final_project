@@ -5,8 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import '../providers/expense_provider.dart';
 import '../widgets/expense_card.dart';
-import '../widgets/category_filter_chip.dart';
-import '../widgets/category_display_card.dart';
+import '../widgets/simple_category_card.dart';
 import '../widgets/stats_card.dart';
 import 'add_edit_expense_screen.dart';
 import '../utils/constants.dart';
@@ -527,9 +526,9 @@ class _HomeScreenState extends State<HomeScreen> {
           physics: const NeverScrollableScrollPhysics(),
           mainAxisSpacing: 10,
           crossAxisSpacing: 8,
-          childAspectRatio: 0.85,
+          childAspectRatio: 0.8,
           children: [
-            CategoryDisplayCard(
+            SimpleCategoryCard(
               label: 'All',
               icon: Icons.all_inclusive,
               color: Colors.grey.shade700,
@@ -537,7 +536,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () => provider.setCategoryFilter(null),
             ),
             ...kExpenseCategories.map((category) {
-              return CategoryDisplayCard(
+              return SimpleCategoryCard(
                 label: category,
                 icon: kCategoryIcons[category]!,
                 color: kCategoryColors[category]!,
