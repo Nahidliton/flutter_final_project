@@ -20,31 +20,33 @@ class StatsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
-      color: color.withOpacity(0.1),
+      color: color.withOpacity(0.08),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
+        side: BorderSide(color: color.withOpacity(0.2), width: 1),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(8),
+                color: color.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(icon, color: color, size: 20),
+              child: Icon(icon, color: color, size: 22),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             Text(
               title,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     color: Colors.grey.shade600,
+                    fontWeight: FontWeight.w500,
                   ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 8),
             Text(
               amount,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(

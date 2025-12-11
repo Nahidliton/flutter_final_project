@@ -178,26 +178,32 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
                     onTap: () => _selectDate(context),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 16),
+                          horizontal: 16, vertical: 14),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey.shade300),
                         borderRadius: BorderRadius.circular(12),
+                        color: Colors.grey.shade50,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
                             children: [
-                              const Icon(Icons.calendar_today, size: 20),
-                              const SizedBox(width: 12),
+                              Icon(Icons.calendar_today,
+                                  size: 22, color: Colors.grey.shade600),
+                              const SizedBox(width: 14),
                               Text(
                                 DateFormat('MMM dd, yyyy')
                                     .format(_selectedDate),
-                                style: const TextStyle(fontSize: 16),
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ],
                           ),
-                          const Icon(Icons.expand_more),
+                          Icon(Icons.expand_more,
+                              color: Colors.grey.shade600, size: 22),
                         ],
                       ),
                     ),
@@ -271,15 +277,24 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
       controller: controller,
       decoration: InputDecoration(
         hintText: hintText,
-        prefixIcon: Icon(icon),
+        hintStyle: TextStyle(color: Colors.grey.shade500),
+        prefixIcon: Icon(icon, color: Colors.grey.shade600),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
+          borderSide: BorderSide(color: Colors.grey.shade300),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.grey.shade300),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: Color(0xFF6366F1), width: 2),
         ),
         filled: true,
-        fillColor: Colors.grey.shade100,
+        fillColor: Colors.grey.shade50,
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       ),
       maxLines: maxLines,
       keyboardType: keyboardType,
@@ -293,6 +308,7 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey.shade300),
         borderRadius: BorderRadius.circular(12),
+        color: Colors.grey.shade50,
       ),
       child: DropdownButton<String>(
         value: _selectedCategory,
@@ -309,10 +325,16 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
                 Icon(
                   kCategoryIcons[category],
                   color: kCategoryColors[category],
-                  size: 20,
+                  size: 22,
                 ),
-                const SizedBox(width: 12),
-                Text(category),
+                const SizedBox(width: 14),
+                Text(
+                  category,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15,
+                  ),
+                ),
               ],
             ),
           );

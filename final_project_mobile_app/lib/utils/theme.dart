@@ -1,7 +1,6 @@
 // lib/utils/theme.dart
 
 import 'package:flutter/material.dart';
-import 'constants.dart';
 
 class AppTheme {
   static ThemeData lightTheme() {
@@ -24,7 +23,7 @@ class AppTheme {
         ),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         elevation: 0,
         color: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

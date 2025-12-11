@@ -21,7 +21,7 @@ class CategoryFilterChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 8),
+      padding: const EdgeInsets.only(right: 10),
       child: FilterChip(
         onSelected: (_) => onTap(),
         selected: isSelected,
@@ -31,24 +31,34 @@ class CategoryFilterChip extends StatelessWidget {
             if (icon != null) ...[
               Icon(
                 icon,
-                size: 16,
+                size: 18,
                 color: isSelected ? Colors.white : (color ?? Colors.grey),
               ),
-              const SizedBox(width: 6),
+              const SizedBox(width: 8),
             ],
-            Text(label),
+            Text(
+              label,
+              style: const TextStyle(fontWeight: FontWeight.w600),
+            ),
           ],
         ),
-        backgroundColor: color?.withOpacity(0.2) ?? Colors.grey.shade200,
-        selectedColor: color ?? Colors.grey,
+        backgroundColor: color?.withOpacity(0.15) ?? Colors.grey.shade100,
+        selectedColor: color ?? Colors.grey.shade700,
         labelStyle: TextStyle(
           color: isSelected ? Colors.white : Colors.black87,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
+          fontSize: 13,
         ),
-        side: BorderSide.none,
+        side: isSelected
+            ? BorderSide.none
+            : BorderSide(
+                color: (color?.withOpacity(0.3) ?? Colors.grey.shade300),
+                width: 1,
+              ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
         ),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       ),
     );
   }
