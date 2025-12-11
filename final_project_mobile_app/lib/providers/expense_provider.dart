@@ -99,7 +99,7 @@ class ExpenseProvider with ChangeNotifier {
           return a.date.compareTo(b.date);
         case 'Amount (High to Low)':
           return b.amount.compareTo(a.amount);
-        case 'Amount (Low to High)':
+        case 'Amount (Low to High2)':
           return a.amount.compareTo(b.amount);
         default:
           return b.date.compareTo(a.date); // Default to newest date
