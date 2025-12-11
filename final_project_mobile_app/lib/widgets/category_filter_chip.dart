@@ -21,44 +21,57 @@ class CategoryFilterChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 10),
-      child: FilterChip(
-        onSelected: (_) => onTap(),
-        selected: isSelected,
-        label: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (icon != null) ...[
-              Icon(
-                icon,
-                size: 18,
-                color: isSelected ? Colors.white : (color ?? Colors.grey),
+      padding: const EdgeInsets.symmetric(horizontal: 6),
+      child: Material(
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(20),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? (color ?? Colors.grey.shade700)
+                  : (color?.withOpacity(0.12) ?? Colors.grey.shade100),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: isSelected
+                    ? (color ?? Colors.grey.shade700)
+                    : (color?.withOpacity(0.3) ?? Colors.grey.shade300),
+                width: isSelected ? 0 : 1.5,
               ),
-              const SizedBox(width: 8),
-            ],
-            Text(
-              label,
-              style: const TextStyle(fontWeight: FontWeight.w600),
+              boxShadow: isSelected
+                  ? [
+                      BoxShadow(
+                        color: (color ?? Colors.grey).withOpacity(0.3),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      )
+                    ]
+                  : [],
             ),
-          ],
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (icon != null) ...[
+                  Icon(
+                    icon,
+                    size: 20,
+                    color: isSelected ? Colors.white : (color ?? Colors.grey.shade700),
+                  ),
+                  const SizedBox(width: 8),
+                ],
+                Text(
+                  label,
+                  style: TextStyle(
+                    color: isSelected ? Colors.white : (color ?? Colors.grey.shade700),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-        backgroundColor: color?.withOpacity(0.15) ?? Colors.grey.shade100,
-        selectedColor: color ?? Colors.grey.shade700,
-        labelStyle: TextStyle(
-          color: isSelected ? Colors.white : Colors.black87,
-          fontWeight: FontWeight.w600,
-          fontSize: 13,
-        ),
-        side: isSelected
-            ? BorderSide.none
-            : BorderSide(
-                color: (color?.withOpacity(0.3) ?? Colors.grey.shade300),
-                width: 1,
-              ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       ),
     );
   }

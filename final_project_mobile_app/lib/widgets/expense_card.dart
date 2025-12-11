@@ -52,12 +52,23 @@ class ExpenseCard extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(14),
+                  padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: categoryColor.withOpacity(0.15),
+                    gradient: LinearGradient(
+                      colors: [
+                        categoryColor.withOpacity(0.25),
+                        categoryColor.withOpacity(0.1),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
                     borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: categoryColor.withOpacity(0.3),
+                      width: 1,
+                    ),
                   ),
-                  child: Icon(categoryIcon, color: categoryColor, size: 28),
+                  child: Icon(categoryIcon, color: categoryColor, size: 32),
                 ),
                 const SizedBox(width: 14),
                 Expanded(

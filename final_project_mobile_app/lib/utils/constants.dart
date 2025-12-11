@@ -19,21 +19,21 @@ const List<String> kSortOptions = [
 ];
 
 Map<String, Color> kCategoryColors = {
-  'Food': const Color(0xFFFF9800),
-  'Transport': const Color(0xFF2196F3),
-  'Entertainment': const Color(0xFF9C27B0),
-  'Shopping': const Color(0xFF4CAF50),
-  'Bills': const Color(0xFFF44336),
-  'Other': const Color(0xFF757575),
+  'Food': const Color(0xFFFF6B35),      // Vibrant Orange
+  'Transport': const Color(0xFF004E89), // Deep Blue
+  'Entertainment': const Color(0xFFD62828), // Bold Red
+  'Shopping': const Color(0xFF06A77D),  // Teal Green
+  'Bills': const Color(0xFFF77F00),     // Dark Orange
+  'Other': const Color(0xFF6C757D),     // Neutral Gray
 };
 
 Map<String, IconData> kCategoryIcons = {
-  'Food': Icons.restaurant_menu,
-  'Transport': Icons.directions_car,
-  'Entertainment': Icons.theaters,
-  'Shopping': Icons.shopping_cart,
-  'Bills': Icons.receipt_long,
-  'Other': Icons.local_offer,
+  'Food': Icons.fastfood,           // Fast food icon
+  'Transport': Icons.directions_car, // Car icon
+  'Entertainment': Icons.movie,     // Movie icon
+  'Shopping': Icons.shopping_bag,   // Shopping bag icon
+  'Bills': Icons.receipt,           // Receipt icon
+  'Other': Icons.category,          // Category icon
 };
 
 const List<Color> kGradientColors = [

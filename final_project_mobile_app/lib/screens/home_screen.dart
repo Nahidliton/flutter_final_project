@@ -507,26 +507,40 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildCategoryFilter(BuildContext context, ExpenseProvider provider) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          CategoryFilterChip(
-            label: 'All',
-            isSelected: provider.categoryFilter == null,
-            onTap: () => provider.setCategoryFilter(null),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Categories',
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: Colors.grey.shade600,
+            fontWeight: FontWeight.w700,
+            fontSize: 13,
           ),
-          ...kExpenseCategories.map((category) {
-            return CategoryFilterChip(
-              label: category,
-              color: kCategoryColors[category],
-              icon: kCategoryIcons[category],
-              isSelected: provider.categoryFilter == category,
-              onTap: () => provider.setCategoryFilter(category),
-            );
-          }).toList(),
-        ],
-      ),
+        ),
+        const SizedBox(height: 12),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              CategoryFilterChip(
+                label: 'All',
+                isSelected: provider.categoryFilter == null,
+                onTap: () => provider.setCategoryFilter(null),
+              ),
+              ...kExpenseCategories.map((category) {
+                return CategoryFilterChip(
+                  label: category,
+                  color: kCategoryColors[category],
+                  icon: kCategoryIcons[category],
+                  isSelected: provider.categoryFilter == category,
+                  onTap: () => provider.setCategoryFilter(category),
+                );
+              }).toList(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
