@@ -20,56 +20,63 @@ class CategoryFilterChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bgColor = color ?? Colors.grey.shade700;
+    
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 6),
-      child: Material(
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(20),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-            decoration: BoxDecoration(
-              color: isSelected
-                  ? (color ?? Colors.grey.shade700)
-                  : (color?.withOpacity(0.12) ?? Colors.grey.shade100),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: isSelected
-                    ? (color ?? Colors.grey.shade700)
-                    : (color?.withOpacity(0.3) ?? Colors.grey.shade300),
-                width: isSelected ? 0 : 1.5,
-              ),
-              boxShadow: isSelected
-                  ? [
-                      BoxShadow(
-                        color: (color ?? Colors.grey).withOpacity(0.3),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      )
-                    ]
-                  : [],
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          decoration: BoxDecoration(
+            gradient: isSelected
+                ? LinearGradient(
+                    colors: [
+                      bgColor,
+                      bgColor.withOpacity(0.8),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  )
+                : null,
+            color: !isSelected ? bgColor.withOpacity(0.1) : null,
+            borderRadius: BorderRadius.circular(25),
+            border: Border.all(
+              color: isSelected ? bgColor : bgColor.withOpacity(0.4),
+              width: isSelected ? 2 : 1.5,
             ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (icon != null) ...[
-                  Icon(
-                    icon,
-                    size: 20,
-                    color: isSelected ? Colors.white : (color ?? Colors.grey.shade700),
-                  ),
-                  const SizedBox(width: 8),
-                ],
-                Text(
-                  label,
-                  style: TextStyle(
-                    color: isSelected ? Colors.white : (color ?? Colors.grey.shade700),
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13,
-                  ),
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: bgColor.withOpacity(0.4),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    )
+                  ]
+                : [],
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (icon != null) ...[
+                Icon(
+                  icon,
+                  size: 18,
+                  color: isSelected ? Colors.white : bgColor,
                 ),
+                const SizedBox(width: 6),
               ],
-            ),
+              Text(
+                label,
+                style: TextStyle(
+                  color: isSelected ? Colors.white : bgColor,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 12,
+                  letterSpacing: 0.5,
+                ),
+              ),
+            ],
           ),
         ),
       ),

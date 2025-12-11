@@ -516,29 +516,31 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Colors.grey.shade600,
             fontWeight: FontWeight.w700,
             fontSize: 13,
+            letterSpacing: 0.5,
           ),
         ),
         const SizedBox(height: 12),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              CategoryFilterChip(
-                label: 'All',
-                isSelected: provider.categoryFilter == null,
-                onTap: () => provider.setCategoryFilter(null),
-              ),
-              ...kExpenseCategories.map((category) {
-                return CategoryFilterChip(
-                  label: category,
-                  color: kCategoryColors[category],
-                  icon: kCategoryIcons[category],
-                  isSelected: provider.categoryFilter == category,
-                  onTap: () => provider.setCategoryFilter(category),
-                );
-              }).toList(),
-            ],
-          ),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            CategoryFilterChip(
+              label: 'All',
+              color: Colors.grey.shade700,
+              icon: Icons.all_inclusive,
+              isSelected: provider.categoryFilter == null,
+              onTap: () => provider.setCategoryFilter(null),
+            ),
+            ...kExpenseCategories.map((category) {
+              return CategoryFilterChip(
+                label: category,
+                color: kCategoryColors[category],
+                icon: kCategoryIcons[category],
+                isSelected: provider.categoryFilter == category,
+                onTap: () => provider.setCategoryFilter(category),
+              );
+            }).toList(),
+          ],
         ),
       ],
     );
