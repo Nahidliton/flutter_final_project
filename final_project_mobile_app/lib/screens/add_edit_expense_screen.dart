@@ -80,13 +80,11 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
     );
 
     try {
-      // Protect against indefinitely waiting writes by using a timeout.
       if (widget.expense == null) {
-        await provider.addExpense(newExpense)
-            .timeout(const Duration(seconds: 10));
+        // For new expenses, use optimistic add (adds locally immediately, syncs to Firestore in background).
+        provider.addExpenseOptimistic(newExpense);
 
         if (!mounted) return;
-        // Stop loading, show a success message here with an icon, then go home.
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -101,10 +99,11 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
             duration: Duration(milliseconds: 900),
           ),
         );
-        // Wait a short moment so the user sees the message, then navigate back.
+        // Wait for the snackbar to be visible, then navigate back.
         await Future.delayed(const Duration(milliseconds: 900));
         if (mounted) Navigator.of(context).pop(true);
       } else {
+        // For updates, still require Firestore write to complete (with timeout).
         await provider.updateExpense(newExpense)
             .timeout(const Duration(seconds: 10));
 
@@ -127,8 +126,7 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
         if (mounted) Navigator.of(context).pop(true);
       }
     } on Exception catch (e) {
-      // On timeout or other exception, show the error here so the user sees it
-      // and remains on the Add/Edit screen to retry or cancel.
+      // Show error only for update operations or if optimistic add threw.
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
@@ -138,7 +136,6 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
           ),
         );
       }
-      return;
     }
   }
 

@@ -38,6 +38,31 @@ class ExpenseProvider with ChangeNotifier {
   Future<void> deleteExpense(String expenseId) =>
       _firestoreService.deleteExpense(expenseId);
 
+  // Optimistic add: add to local list immediately, sync to Firestore in background.
+  Future<void> addExpenseOptimistic(Expense expense) async {
+    // Add to local list immediately
+    final newExpense = expense.copyWith(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      createdAt: DateTime.now(),
+    );
+    _allExpenses.add(newExpense);
+    notifyListeners();
+
+    // Attempt to sync to Firestore in background (don't block UI)
+    try {
+      await _firestoreService.addExpense(newExpense).timeout(
+            const Duration(seconds: 10),
+            onTimeout: () => throw TimeoutException(
+              'Firestore write timed out after 10 seconds',
+            ),
+          );
+    } catch (e) {
+      // Log error but don't fail — the expense is already in the local list.
+      // On next app restart, Firestore stream will sync the truth.
+      debugPrint('Background Firestore sync failed: $e');
+    }
+  }
+
   // ----------------------------------------------------
   // II. Getters & Calculations
   // ----------------------------------------------------
