@@ -55,7 +55,6 @@ class MyApp extends StatelessWidget {
           ),
         ),
         home: const HomeScreen(),
-        
       ),
     );
   }
