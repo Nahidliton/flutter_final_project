@@ -58,9 +58,20 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const AddEditExpenseScreen(),
-          ));
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => const AddEditExpenseScreen()))
+              .then((result) {
+            if (result != null && result is Map) {
+              final ok = result['ok'] == true;
+              final message = result['message']?.toString() ?? '';
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(message),
+                  backgroundColor: ok ? Colors.green : Colors.red,
+                ),
+              );
+            }
+          });
         },
         icon: const Icon(Icons.add),
         label: const Text('Add Expense'),
@@ -155,9 +166,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 label: 'Add',
                 color: const Color(0xFF6366F1),
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const AddEditExpenseScreen(),
-                  ));
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => const AddEditExpenseScreen()))
+                      .then((result) {
+                    if (result != null && result is Map) {
+                      final ok = result['ok'] == true;
+                      final message = result['message']?.toString() ?? '';
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(message),
+                          backgroundColor: ok ? Colors.green : Colors.red,
+                        ),
+                      );
+                    }
+                  });
                 },
               ),
             ),
@@ -510,9 +532,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
   void _editExpense(BuildContext context, expense) {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => AddEditExpenseScreen(expense: expense),
-    ));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => AddEditExpenseScreen(expense: expense)))
+        .then((result) {
+      if (result != null && result is Map) {
+        final ok = result['ok'] == true;
+        final message = result['message']?.toString() ?? '';
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+            backgroundColor: ok ? Colors.green : Colors.red,
+          ),
+        );
+      }
+    });
   }
 
   void _deleteExpense(

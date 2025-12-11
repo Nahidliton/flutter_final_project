@@ -85,43 +85,19 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
         await provider.addExpense(newExpense)
             .timeout(const Duration(seconds: 10));
 
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('✓ Expense added successfully!'),
-              backgroundColor: Colors.green,
-              duration: Duration(seconds: 2),
-            ),
-          );
-          // Wait a short moment for the snackbar to appear, then navigate back.
-          await Future.delayed(const Duration(milliseconds: 700));
-          if (mounted) Navigator.of(context).pop(true);
-        }
+        // Pop with a result map and let the Home screen show the SnackBar.
+        if (mounted) Navigator.of(context).pop({'ok': true, 'message': 'Expense added successfully!'});
       } else {
         await provider.updateExpense(newExpense)
             .timeout(const Duration(seconds: 10));
 
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('✓ Expense updated successfully!'),
-              backgroundColor: Colors.green,
-              duration: Duration(seconds: 2),
-            ),
-          );
-          await Future.delayed(const Duration(milliseconds: 700));
-          if (mounted) Navigator.of(context).pop(true);
-        }
+        if (mounted) Navigator.of(context).pop({'ok': true, 'message': 'Expense updated successfully!'});
       }
     } on Exception catch (e) {
-      // Handle timeout or firestore exceptions
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error saving expense: ${e.toString()}'), backgroundColor: Colors.red),
-        );
-      }
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
+      // On timeout or other exception, return the error message to the caller so
+      // the Home screen can display it and we won't remain blocked here.
+      if (mounted) Navigator.of(context).pop({'ok': false, 'message': e.toString()});
+      return;
     }
   }
 
