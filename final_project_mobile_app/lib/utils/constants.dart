@@ -28,12 +28,12 @@ Map<String, Color> kCategoryColors = {
 };
 
 Map<String, IconData> kCategoryIcons = {
-  'Food': Icons.restaurant,
+  'Food': Icons.restaurant_menu,
   'Transport': Icons.directions_car,
-  'Entertainment': Icons.movie,
-  'Shopping': Icons.shopping_bag,
-  'Bills': Icons.description,
-  'Other': Icons.category,
+  'Entertainment': Icons.theaters,
+  'Shopping': Icons.shopping_cart,
+  'Bills': Icons.receipt_long,
+  'Other': Icons.local_offer,
 };
 
 const List<Color> kGradientColors = [

@@ -87,8 +87,12 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
             const SnackBar(
               content: Text('✓ Expense added successfully!'),
               backgroundColor: Colors.green,
+              duration: Duration(seconds: 2),
             ),
           );
+          // Wait for snackbar to show before navigating
+          await Future.delayed(const Duration(seconds: 2));
+          if (mounted) Navigator.of(context).pop();
         }
       } else {
         await provider.updateExpense(newExpense);
@@ -97,11 +101,14 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
             const SnackBar(
               content: Text('✓ Expense updated successfully!'),
               backgroundColor: Colors.green,
+              duration: Duration(seconds: 2),
             ),
           );
+          // Wait for snackbar to show before navigating
+          await Future.delayed(const Duration(seconds: 2));
+          if (mounted) Navigator.of(context).pop();
         }
       }
-      if (mounted) Navigator.of(context).pop();
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
