@@ -363,33 +363,37 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontWeight: FontWeight.bold,
                   ),
             ),
-            const SizedBox(height: 16),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  CategoryFilterChip(
-                    label: 'All',
-                    isSelected: provider.categoryFilter == null,
+            const SizedBox(height: 20),
+            GridView.count(
+              crossAxisCount: 4,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 10,
+              children: [
+                CategoryCard(
+                  label: 'All',
+                  icon: Icons.all_inclusive,
+                  color: Colors.grey.shade700,
+                  isSelected: provider.categoryFilter == null,
+                  onTap: () {
+                    provider.setCategoryFilter(null);
+                    Navigator.pop(context);
+                  },
+                ),
+                ...kExpenseCategories.map((category) {
+                  return CategoryCard(
+                    label: category,
+                    icon: kCategoryIcons[category]!,
+                    color: kCategoryColors[category]!,
+                    isSelected: provider.categoryFilter == category,
                     onTap: () {
-                      provider.setCategoryFilter(null);
+                      provider.setCategoryFilter(category);
                       Navigator.pop(context);
                     },
-                  ),
-                  ...kExpenseCategories.map((category) {
-                    return CategoryFilterChip(
-                      label: category,
-                      color: kCategoryColors[category],
-                      icon: kCategoryIcons[category],
-                      isSelected: provider.categoryFilter == category,
-                      onTap: () {
-                        provider.setCategoryFilter(category);
-                        Navigator.pop(context);
-                      },
-                    );
-                  }).toList(),
-                ],
-              ),
+                  );
+                }).toList(),
+              ],
             ),
           ],
         ),
